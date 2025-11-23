@@ -1,5 +1,26 @@
-"""
-Потрібно розробити програму, яка імітує приймання й обробку заявок: програма має автоматично генерувати нові заявки (ідентифіковані унікальним номером або іншими даними), додавати їх до черги, а потім послідовно видаляти з черги для "обробки", імітуючи таким чином роботу сервісного центру.
+from queue import Queue
+import time
 
-У цьому псевдокоді використовуються дві основні функції: generate_request(), яка генерує нові заявки та додає їх до черги, та process_request(), яка обробляє заявки, видаляючи їх із черги. Головний цикл програми виконує ці функції, імітуючи постійний потік нових заявок та їх обробку.
-"""
+queue = Queue()
+request_id = 0
+
+
+def generate_request():
+    global request_id
+    request_id += 1
+    request = f"Request #{request_id}"
+    queue.put(request)
+    print(f"Створено: {request}")
+
+
+def process_request():
+    if not queue.empty():
+        request = queue.get()
+        print(f"Обробляю: {request}")
+    else:
+        print("Черга пуста")
+
+
+for _ in range(5):
+    generate_request()
+    process_request()
